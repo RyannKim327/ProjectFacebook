@@ -1,10 +1,10 @@
-# Facebook Posting Tool
-### MPOP Reverse II [Ryann Kim Sesgundo]
+<div align="center">
+	<h1>Project Facebook</h1>
+	<h3>MPOP Reverse II [Ryann Kim Sesgundo]</h3>
+	<h5>v1.1.0</h5>
 
-A TypeScript-based tool for automating multi-photo and media postings to Facebook Pages.
-
-## Version
-`1.1.0`
+	<p>A TypeScript-based tool for facebook automation like facebook posting and facebook messaging.</p>
+</div>
 
 ## File Structure
 
