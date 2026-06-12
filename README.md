@@ -39,12 +39,15 @@ graph TD
 
 ## Configuration
 
-Create a `.env` file in the root directory with the following variables:
-
-```env
-FB_TOKEN=your_long_lived_token
-PAGE_ID=your_facebook_page_id
-```
+1. Copy the sample environment file:
+   ```bash
+   cp .env.sample .env
+   ```
+2. Fill in the required variables in your `.env` file:
+   - `APP_ID`: Your Facebook App ID.
+   - `APP_SECRET`: Your Facebook App Secret.
+   - `SHORT_TERM_TOKEN`: A short-lived user access token (see below).
+   - `PAGE_ID`: The ID of the Facebook Page you want to post to.
 
 ## How to Obtain Facebook Tokens
 
@@ -55,29 +58,15 @@ PAGE_ID=your_facebook_page_id
    - `pages_manage_posts`
    - `pages_read_engagement`
    - `pages_show_list`
-4. Click **Generate Token**. This token usually lasts for 2 hours.
+4. Click **Generate Token**. This token usually lasts for 2 hours. Copy this to `SHORT_TERM_TOKEN` in your `.env`.
 
 ### 2. Long-Lived User Access Token (2 Months)
-To generate a 60-day token, modify the `src/token-generator.ts` by the corresponding value to automatically create a .env file for token. Here's the exact code you must look for.
+To generate a 60-day token, ensure `APP_ID`, `APP_SECRET`, and `SHORT_TERM_TOKEN` are set in your `.env` file. Then run:
 
-```Typescript
-// INFO: For user please do fill-up the following to generate a long term token
-const APP_ID = ""
-const APP_SECRET = ""
-const SHORT_TERM_TOKEN = ""
-
-TokenGenerator(
-	APP_ID,
-	APP_SECRET,
-	SHORT_TERM_TOKEN
-)
-```
-
-Then use the built-in generator script:
 ```bash
 npm run token
 ```
-This script will exchange your short-lived token for a long-lived one and automatically update your `.env` file.
+This script will exchange your short-lived token for a long-lived one and automatically update the `FB_TOKEN` in your `.env` file.
 
 ### 3. Page Access Token
 The project includes a `TwoHourToken` script (`src/script/2hrs.ts`) that automatically handles fetching the correct Page Access Token from the `/me/accounts` endpoint using your provided credentials.

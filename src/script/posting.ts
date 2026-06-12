@@ -3,8 +3,21 @@ import { FacebookPostingProperties } from "../interface"
 import uploadMedia from "./upload-media"
 
 export default function FacebookPosting(TOKEN: string, PAGE_ID: string) {
-	return async (message: FacebookPostingProperties) => {
+	return async (message: FacebookPostingProperties | string) => {
 		try {
+			const url = `https://graph.facebook.com/${PAGE_ID}/feed`
+
+			if (typeof message === "string") {
+				const { data } = await axios.post(url, null, {
+					params: {
+						message: message,
+						access_token: TOKEN
+					}
+				})
+				console.log("Posted")
+				return
+			}
+
 			// TODO: Multi Media
 			let attachments = []
 			let imgError = false
@@ -19,7 +32,6 @@ export default function FacebookPosting(TOKEN: string, PAGE_ID: string) {
 				throw new Error(`Image Posting error catcher`)
 			}
 
-			const url = `https://graph.facebook.com/${PAGE_ID}/feed`
 			const { data } = await axios.post(url, null, {
 				params: {
 					message: message.message,

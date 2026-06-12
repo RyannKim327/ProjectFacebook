@@ -25,7 +25,7 @@ export default function TwoHourToken(PAGE_ACCESS_TOKEN: string) {
 			}
 
 		} catch (e) {
-			console.error(e)
+			console.error(e.toString())
 			callToken()
 		}
 	}

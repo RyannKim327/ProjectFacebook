@@ -12,9 +12,8 @@ export default async function TokenGenerator(APP_ID: string, APP_SECRET: string,
 			fb_exchange_token: TWO_HOUR_TOKEN
 		}
 	})
-	fs.writeFileSync("file.json", JSON.stringify(data, null, 2), "utf-8")
 	if (!fs.existsSync(".env")) {
-		fs.writeFileSync(".env", "FB_TOKEN=\nPAGE_ID=", "utf-8")
+		fs.writeFileSync(".env", fs.readFileSync(".env.sample", "utf-8"), "utf-8")
 	}
 
 	let env = fs.readFileSync(".env", "utf-8")
@@ -26,6 +25,9 @@ export default async function TokenGenerator(APP_ID: string, APP_SECRET: string,
 				splitEnv[e] = splitEnv[e].substring(0, "FB_TOKEN=".length)
 				splitEnv[e] += data.access_token
 			}
+			if (_env.startsWith("SHORT_TERM_TOKEN=")) {
+				splitEnv[e] = "SHORT_TERM_TOKEN="
+			}
 		}
 		env = splitEnv.join("\n")
 	} else {
@@ -33,4 +35,6 @@ export default async function TokenGenerator(APP_ID: string, APP_SECRET: string,
 	}
 
 	fs.writeFileSync(".env", env, "utf-8")
+
+	console.info("The .env file is now updated, we remove the value for SHORT_TERM_TOKEN as it is required to remove")
 }
