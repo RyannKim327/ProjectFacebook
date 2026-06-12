@@ -14,10 +14,20 @@ export default function FacebookPosting(TOKEN: string, PAGE_ID: string) {
 						access_token: TOKEN
 					}
 				}).then(response => {
-					if (callback) {
-						if (typeof callback === 'function') {
-							callback(null, response.data)
+					if (response.status >= 200 && response.status < 300) {
+						if (callback) {
+							if (typeof callback === 'function') {
+								callback(null, response.data)
+							}
 						}
+					} else {
+						if (callback) {
+							if (typeof callback === 'function') {
+								callback(response.statusText, null)
+								return
+							}
+						}
+						throw new Error(response.statusText)
 					}
 				}).catch(error => {
 					if (callback) {
@@ -28,7 +38,6 @@ export default function FacebookPosting(TOKEN: string, PAGE_ID: string) {
 					}
 					throw new Error(error)
 				})
-
 				return
 			}
 
