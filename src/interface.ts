@@ -1,4 +1,9 @@
 export interface FacebookPostingProperties {
 	message: string,
-	img?: string
+	media?: FacebookMediaProperties[]
+}
+
+export interface FacebookMediaProperties {
+	url: string
+	caption?: string
 }

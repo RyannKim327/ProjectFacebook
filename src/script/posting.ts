@@ -1,25 +1,46 @@
 import axios from "axios"
 import { FacebookPostingProperties } from "../interface"
+import uploadMedia from "./upload-media"
 
 export default function FacebookPosting(TOKEN: string, PAGE_ID: string) {
 	return async (message: FacebookPostingProperties) => {
 		try {
-			if (message.img) {
-				const url = `https://graph.facebook.com/${PAGE_ID}/photos`
-				const { data } = await axios.post(url, null, {
-					params: {
-						url: message.img,
-						caption: message.message,
-						access_token: TOKEN
-					}
-				})
-				console.log("Photo Posted")
-				return
+			// if (message.img) {
+			// 	const url = `https://graph.facebook.com/${PAGE_ID}/photos`
+			// 	const { data } = await axios.post(url, null, {
+			// 		params: {
+			// 			url: message.img,
+			// 			caption: message.message,
+			// 			access_token: TOKEN
+			// 		}
+			// 	})
+			// 	console.log("Photo Posted")
+			// 	return
+			// }
+
+			// TODO: Multi Media
+			let attachments = []
+			let imgError = false
+
+			// if (message.media) {
+			attachments = await Promise.all(
+				(message.media || []).map(media => uploadMedia(TOKEN, media, message.message, PAGE_ID))
+			)
+			// }
+
+			console.log(attachments)
+
+			// return
+
+			if (imgError) {
+				throw new Error(`Image Posting error catcher`)
 			}
+
 			const url = `https://graph.facebook.com/${PAGE_ID}/feed`
 			const { data } = await axios.post(url, null, {
 				params: {
 					message: message.message,
+					attached_media: attachments,
 					access_token: TOKEN
 				}
 			})
