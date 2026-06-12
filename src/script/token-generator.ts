@@ -12,6 +12,7 @@ export default async function TokenGenerator(APP_ID: string, APP_SECRET: string,
 			fb_exchange_token: TWO_HOUR_TOKEN
 		}
 	})
+
 	if (!fs.existsSync(".env")) {
 		fs.writeFileSync(".env", fs.readFileSync(".env.sample", "utf-8"), "utf-8")
 	}
