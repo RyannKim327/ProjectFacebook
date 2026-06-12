@@ -42,7 +42,7 @@ graph TD
 Create a `.env` file in the root directory with the following variables:
 
 ```env
-FB_TOKEN=your_short_lived_or_long_lived_token
+FB_TOKEN=your_long_lived_token
 PAGE_ID=your_facebook_page_id
 ```
 
@@ -58,16 +58,26 @@ PAGE_ID=your_facebook_page_id
 4. Click **Generate Token**. This token usually lasts for 2 hours.
 
 ### 2. Long-Lived User Access Token (2 Months)
-To convert your 2-hour token into a 60-day token:
-1. Use the Access Token Tool or exchange it via the API:
-   ```text
-   GET /oauth/access_token?  
-       grant_type=fb_exchange_token&           
-       client_id={app-id}&
-       client_secret={app-secret}&
-       fb_exchange_token={short-lived-token}
-   ```
-2. Alternatively, the project's internal logic uses the provided token to fetch Page Access Tokens.
+To generate a 60-day token, modify the `src/token-generator.ts` by the corresponding value to automatically create a .env file for token. Here's the exact code you must look for.
+
+```Typescript
+// INFO: For user please do fill-up the following to generate a long term token
+const APP_ID = ""
+const APP_SECRET = ""
+const SHORT_TERM_TOKEN = ""
+
+TokenGenerator(
+	APP_ID,
+	APP_SECRET,
+	SHORT_TERM_TOKEN
+)
+```
+
+Then use the built-in generator script:
+```bash
+npm run token
+```
+This script will exchange your short-lived token for a long-lived one and automatically update your `.env` file.
 
 ### 3. Page Access Token
 The project includes a `TwoHourToken` script (`src/script/2hrs.ts`) that automatically handles fetching the correct Page Access Token from the `/me/accounts` endpoint using your provided credentials.

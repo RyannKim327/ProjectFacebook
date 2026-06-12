@@ -4,6 +4,7 @@
   "description": "A TypeScript-based tool for automating multi-photo and media postings to Facebook Pages.",
   "main": "index.js",
   "scripts": {
+    "token": "npx tsx src/token-generator.ts",
     "start": "npx tsx src",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
