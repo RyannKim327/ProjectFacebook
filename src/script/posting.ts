@@ -59,11 +59,11 @@ export default function FacebookPosting(TOKEN: string, PAGE_ID: string) {
 			}).catch(error => {
 				if (callback) {
 					if (typeof callback === "function") {
-						callback(error, null)
+						callback(error.toString(), null)
 						return
 					}
 				}
-				throw new Error(error)
+				throw new Error(error.toString())
 			})
 		} catch (e) {
 			console.error(e.toString())

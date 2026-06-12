@@ -1,6 +1,7 @@
 import axios from "axios"
 
 export default function TwoHourToken(PAGE_ACCESS_TOKEN: string) {
+	let trial = 10
 	const callToken = async () => {
 		try {
 			const url = "https://graph.facebook.com/v25.0/me/accounts"
@@ -26,7 +27,16 @@ export default function TwoHourToken(PAGE_ACCESS_TOKEN: string) {
 
 		} catch (e) {
 			console.error(e.toString())
-			callToken()
+			trial--
+			if (trial <= 0) {
+				setTimeout(() => {
+					console.log("Ten second timeout")
+					trial = 10
+					callToken()
+				}, 10000)
+			} else {
+				callToken()
+			}
 		}
 	}
 	return callToken
