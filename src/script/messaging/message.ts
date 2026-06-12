@@ -31,7 +31,7 @@ export default function message(TOKEN: string, config: MessengerConfigProperties
 				}
 			);
 			if (typeof callback === "function") {
-				callback(null, response);
+				callback(null, response.data);
 			}
 			return response;
 		} catch (error) {

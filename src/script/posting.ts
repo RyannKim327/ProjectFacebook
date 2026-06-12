@@ -8,13 +8,27 @@ export default function FacebookPosting(TOKEN: string, PAGE_ID: string) {
 			const url = `https://graph.facebook.com/${PAGE_ID}/feed`
 
 			if (typeof message === "string") {
-				const { data } = await axios.post(url, null, {
+				await axios.post(url, null, {
 					params: {
 						message: message,
 						access_token: TOKEN
 					}
+				}).then(response => {
+					if (callback) {
+						if (typeof callback === 'function') {
+							callback(null, response.data)
+						}
+					}
+				}).catch(error => {
+					if (callback) {
+						if (typeof callback === "function") {
+							callback(error, null)
+							return
+						}
+					}
+					throw new Error(error)
 				})
-				console.log("Posted")
+
 				return
 			}
 
@@ -39,7 +53,7 @@ export default function FacebookPosting(TOKEN: string, PAGE_ID: string) {
 			}).then(response => {
 				if (callback) {
 					if (typeof callback === 'function') {
-						callback(null, response)
+						callback(null, response.data)
 					}
 				}
 			}).catch(error => {

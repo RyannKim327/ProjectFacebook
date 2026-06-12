@@ -91,7 +91,7 @@ export default function attachment(TOKEN: string, config: MessengerConfigPropert
 			.then((response) => {
 				if (callback) {
 					if (typeof callback === "function") {
-						callback(null, response);
+						callback(null, response.data);
 					}
 				}
 			})
