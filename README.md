@@ -4,7 +4,7 @@
 A TypeScript-based tool for automating multi-photo and media postings to Facebook Pages.
 
 ## Version
-`1.0.0`
+`1.1.0`
 
 ## File Structure
 
@@ -12,6 +12,7 @@ A TypeScript-based tool for automating multi-photo and media postings to Faceboo
 graph TD
     root["facebook-posting/"]
     root --> src["src/"]
+    root --> docs["docs/"]
     root --> package_json["package.json"]
     root --> env_d_ts["env.d.ts"]
     root --> gitignore[".gitignore"]
@@ -20,10 +21,19 @@ graph TD
     src --> interface["interface.ts (Types)"]
     src --> script["script/"]
 
+    docs --> feed_doc["FEED.md (Feed Tutorial)"]
+    docs --> msg_doc["MESSAGING.md (Messaging Tutorial)"]
+
     script --> two_hrs["2hrs.ts (Token Management)"]
     script --> posting["posting.ts (Posting Logic)"]
-    script --> upload_media["upload-media.ts (Media Upload)"]
+    script --> messaging["messaging/ (Messaging Logic)"]
 ```
+
+## Tutorials
+
+Detailed guides for each feature:
+- [Facebook Feed Posting Tutorial](./docs/FEED.md)
+- [Facebook Messenger Tutorial](./docs/MESSAGING.md)
 
 ## Dependencies
 
@@ -69,17 +79,7 @@ npm run token
 This script will exchange your short-lived token for a long-lived one and automatically update the `FB_TOKEN` in your `.env` file.
 
 ### 3. Page Access Token
-The project includes a `TwoHourToken` script (`src/script/2hrs.ts`) that automatically handles fetching the correct Page Access Token from the `/me/accounts` endpoint using your provided credentials.
-
-## Usage
-
-To start the posting process, run:
-
-```bash
-npm start
-```
-
-This will execute `src/index.ts`, which initializes the token and prepares the posting logic.
+This project includes a `TwoHourToken` script (`src/script/2hrs.ts`) that automatically handles fetching the correct Page Access Token from the `/me/accounts` endpoint using your provided credentials.
 
 ## Credits
 
