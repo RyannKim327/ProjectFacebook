@@ -1,7 +1,7 @@
 {
   "name": "facebook-posting",
   "version": "1.0.0",
-  "description": "",
+  "description": "A TypeScript-based tool for automating multi-photo and media postings to Facebook Pages.",
   "main": "index.js",
   "scripts": {
     "start": "npx tsx src",
