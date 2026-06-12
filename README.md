@@ -3,7 +3,7 @@
 	<h3>MPOP Reverse II [Ryann Kim Sesgundo]</h3>
 	<h5>v1.1.0</h5>
 
-	A TypeScript-based tool for facebook automation like facebook posting and facebook messaging.
+A TypeScript-based tool for facebook automation like facebook posting and facebook messaging.
 
 </div>
 
