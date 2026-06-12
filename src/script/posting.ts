@@ -3,50 +3,56 @@ import { FacebookPostingProperties } from "../interface"
 import uploadMedia from "./upload-media"
 
 export default function FacebookPosting(TOKEN: string, PAGE_ID: string) {
-	return async (message: FacebookPostingProperties) => {
+	return async (message: FacebookPostingProperties | string, callback?: Function) => {
 		try {
-			// if (message.img) {
-			// 	const url = `https://graph.facebook.com/${PAGE_ID}/photos`
-			// 	const { data } = await axios.post(url, null, {
-			// 		params: {
-			// 			url: message.img,
-			// 			caption: message.message,
-			// 			access_token: TOKEN
-			// 		}
-			// 	})
-			// 	console.log("Photo Posted")
-			// 	return
-			// }
+			const url = `https://graph.facebook.com/${PAGE_ID}/feed`
+
+			if (typeof message === "string") {
+				const { data } = await axios.post(url, null, {
+					params: {
+						message: message,
+						access_token: TOKEN
+					}
+				})
+				console.log("Posted")
+				return
+			}
 
 			// TODO: Multi Media
 			let attachments = []
 			let imgError = false
 
-			// if (message.media) {
 			attachments = await Promise.all(
 				(message.media || []).map(media => uploadMedia(TOKEN, media, message.message, PAGE_ID))
 			)
-			// }
-
-			console.log(attachments)
-
-			// return
 
 			if (imgError) {
 				throw new Error(`Image Posting error catcher`)
 			}
 
-			const url = `https://graph.facebook.com/${PAGE_ID}/feed`
-			const { data } = await axios.post(url, null, {
+			axios.post(url, null, {
 				params: {
 					message: message.message,
 					attached_media: attachments,
 					access_token: TOKEN
 				}
+			}).then(response => {
+				if (callback) {
+					if (typeof callback === 'function') {
+						callback(null, response)
+					}
+				}
+			}).catch(error => {
+				if (callback) {
+					if (typeof callback === "function") {
+						callback(error, null)
+						return
+					}
+				}
+				throw new Error(error)
 			})
-			console.log("Posted")
 		} catch (e) {
-			console.error(e)
+			console.error(e.toString())
 			console.error(e?.error as string)
 		}
 	}

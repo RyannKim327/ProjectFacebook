@@ -4,7 +4,7 @@
 A TypeScript-based tool for automating multi-photo and media postings to Facebook Pages.
 
 ## Version
-`1.0.0`
+`1.1.0`
 
 ## File Structure
 
@@ -12,6 +12,7 @@ A TypeScript-based tool for automating multi-photo and media postings to Faceboo
 graph TD
     root["facebook-posting/"]
     root --> src["src/"]
+    root --> docs["docs/"]
     root --> package_json["package.json"]
     root --> env_d_ts["env.d.ts"]
     root --> gitignore[".gitignore"]
@@ -20,10 +21,19 @@ graph TD
     src --> interface["interface.ts (Types)"]
     src --> script["script/"]
 
+    docs --> feed_doc["FEED.md (Feed Tutorial)"]
+    docs --> msg_doc["MESSAGING.md (Messaging Tutorial)"]
+
     script --> two_hrs["2hrs.ts (Token Management)"]
     script --> posting["posting.ts (Posting Logic)"]
-    script --> upload_media["upload-media.ts (Media Upload)"]
+    script --> messaging["messaging/ (Messaging Logic)"]
 ```
+
+## Tutorials
+
+Detailed guides for each feature:
+- [Facebook Feed Posting Tutorial](./docs/FEED.md)
+- [Facebook Messenger Tutorial](./docs/MESSAGING.md)
 
 ## Dependencies
 
@@ -39,12 +49,15 @@ graph TD
 
 ## Configuration
 
-Create a `.env` file in the root directory with the following variables:
-
-```env
-FB_TOKEN=your_short_lived_or_long_lived_token
-PAGE_ID=your_facebook_page_id
-```
+1. Copy the sample environment file:
+   ```bash
+   cp .env.sample .env
+   ```
+2. Fill in the required variables in your `.env` file:
+   - `APP_ID`: Your Facebook App ID.
+   - `APP_SECRET`: Your Facebook App Secret.
+   - `SHORT_TERM_TOKEN`: A short-lived user access token (see below).
+   - `PAGE_ID`: The ID of the Facebook Page you want to post to.
 
 ## How to Obtain Facebook Tokens
 
@@ -55,32 +68,18 @@ PAGE_ID=your_facebook_page_id
    - `pages_manage_posts`
    - `pages_read_engagement`
    - `pages_show_list`
-4. Click **Generate Token**. This token usually lasts for 2 hours.
+4. Click **Generate Token**. This token usually lasts for 2 hours. Copy this to `SHORT_TERM_TOKEN` in your `.env`.
 
 ### 2. Long-Lived User Access Token (2 Months)
-To convert your 2-hour token into a 60-day token:
-1. Use the Access Token Tool or exchange it via the API:
-   ```text
-   GET /oauth/access_token?  
-       grant_type=fb_exchange_token&           
-       client_id={app-id}&
-       client_secret={app-secret}&
-       fb_exchange_token={short-lived-token}
-   ```
-2. Alternatively, the project's internal logic uses the provided token to fetch Page Access Tokens.
-
-### 3. Page Access Token
-The project includes a `TwoHourToken` script (`src/script/2hrs.ts`) that automatically handles fetching the correct Page Access Token from the `/me/accounts` endpoint using your provided credentials.
-
-## Usage
-
-To start the posting process, run:
+To generate a 60-day token, ensure `APP_ID`, `APP_SECRET`, and `SHORT_TERM_TOKEN` are set in your `.env` file. Then run:
 
 ```bash
-npm start
+npm run token
 ```
+This script will exchange your short-lived token for a long-lived one and automatically update the `FB_TOKEN` in your `.env` file.
 
-This will execute `src/index.ts`, which initializes the token and prepares the posting logic.
+### 3. Page Access Token
+This project includes a `TwoHourToken` script (`src/script/2hrs.ts`) that automatically handles fetching the correct Page Access Token from the `/me/accounts` endpoint using your provided credentials.
 
 ## Credits
 

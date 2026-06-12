@@ -1,6 +1,13 @@
 declare namespace NodeJS {
-	interface ProcecssEnv {
+	interface ProcessEnv {
 		PAGE_ID: string,
 		FB_TOKEN: string
+		APP_ID?: string
+		APP_SECRET?: string
+		SHORT_TERM_TOKEN?: string
+		MESSENGER_TOKEN?: string
+		HOSTNAME?: string
+		ASSETS?: string
+		TEMP_FILES?: string
 	}
 }
