@@ -2,7 +2,7 @@
 	<h1>Project Facebook</h1>
 	<h3>MPOP Reverse II [Ryann Kim Sesgundo]</h3>
 	<h5>v1.1.0</h5>
-
+<img src="https://wakatime.com/badge/github/RyannKim327/ProjectFacebook.svg">
 A TypeScript-based tool for facebook automation like facebook posting and facebook messaging.
 
 </div>
